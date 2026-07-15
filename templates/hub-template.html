@@ -1,0 +1,272 @@
+<!doctype html>
+<!-- NextGen Studio - PORTFOLIO HUB template.
+     Static HTML. Tailwind CDN + shared/studio.css + shared/studio.js + shared/preview.js
+     (+ shared/i18n.js if trilingual). This file lives at the PROJECT ROOT (one level ABOVE
+     the per-site dirs), so its shared/* paths have NO "../" prefix - unlike the site/funnel
+     templates which sit one level deeper.
+
+     Build order: build the individual demo sites FIRST, then add one <a.demo-card> per site
+     to #demoGrid, keep the filter counts in sync, drop a poster into hub-assets/, and (if the
+     site has a preview clip) wire data-loop. See references/hub.md + references/preview-widget.md. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- TODO: studio name + one-line positioning. -->
+  <title>TODO Studio - AI-built websites that feel like worlds</title>
+  <meta name="description" content="TODO: one-sentence description of the showcase - what kinds of demos, how many, built with AI." />
+  <meta property="og:title" content="TODO Studio - AI-built websites that feel like worlds" />
+  <meta property="og:description" content="TODO: og description." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="hub-assets/poster-demo-one.webp" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#10024;</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="shared/studio.css">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Hub-specific layer on top of studio.css (the studio signature is GOLD here, not the
+       per-site accent - the hub uses data-accent only to tint the ambient scene glow). */
+    .hero-grad { background: linear-gradient(180deg, #FFFFFF 0%, #FFF3CE 62%, var(--gold-deep) 130%);
+      -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* Collection cards */
+    .demo-card { position: relative; isolation: isolate; overflow: hidden; border-radius: 1.5rem; display: block; }
+    .demo-card .poster-box { position: relative; overflow: hidden; }
+    .demo-card .poster-box img.poster { width: 100%; height: 100%; object-fit: cover;
+      transition: transform 640ms cubic-bezier(0.22,1,0.36,1), filter 420ms ease; }
+    .demo-card:hover .poster-box img.poster { transform: scale(1.045); filter: saturate(1.08); }
+    .demo-card .cover-scrim::after { content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+      background: linear-gradient(to top, rgba(9,12,19,0.92) 2%, rgba(9,12,19,0.38) 36%, transparent 64%); }
+    .demo-card .ring { position:absolute; inset:0; z-index:3; border-radius: inherit; pointer-events:none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); }
+
+    /* Filter chips */
+    .fchip { cursor: pointer; user-select: none; min-height: 44px; display: inline-flex; align-items: center; gap: .45rem;
+      padding: 0.5rem 1.05rem; border-radius: 999px; font-size: var(--fs-sm); font-weight: 600;
+      background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-soft);
+      transition: background var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out); }
+    .fchip:hover { border-color: var(--line-strong); color: var(--ink); }
+    .fchip:active { transform: scale(0.97); }
+    .fchip[aria-pressed="true"] { background: linear-gradient(180deg, var(--gold), var(--gold-deep)); color: #12100A; border-color: transparent; }
+    .fchip .cnt { font-variant-numeric: tabular-nums; opacity: .75; font-weight: 700; }
+
+    .demo-card.is-filtered { display: none; }
+
+    /* live-iframe layer host (preview.js positions the iframe inside) */
+    .demo-card .preview-host { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; border-radius: inherit; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .demo-card .poster-box img.poster { transition: none; }
+    }
+  </style>
+</head>
+<body class="bg-scene min-h-screen" data-accent="saas">
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="site-head" id="siteHead">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#top" class="font-display text-sm uppercase tracking-[0.16em] text-white">TODO<span style="color:var(--gold)">Studio</span></a>
+      <nav class="flex items-center gap-3 sm:gap-5">
+        <span class="chip chip-live hidden md:inline-flex"><span class="chip-dot"></span><span class="tnum" data-i18n="head.live">TODO live demos</span></span>
+        <a href="#collection" class="text-[color:var(--ink-soft)] hover:text-white transition-colors duration-200 text-sm font-medium" data-i18n="head.collection">Collection</a>
+        <a href="#services" class="text-[color:var(--ink-soft)] hover:text-white transition-colors duration-200 text-sm font-medium" data-i18n="head.services">Services</a>
+      </nav>
+    </div>
+  </header>
+
+  <span id="top"></span>
+  <main class="relative z-10 max-w-6xl mx-auto px-6">
+
+    <!-- HERO -->
+    <section class="pt-16 pb-14 sm:pt-24 sm:pb-20">
+      <div class="max-w-3xl">
+        <p class="reveal chip mb-6" data-load style="--i:0"><span class="chip-dot"></span><span data-i18n="hero.chip">TODO: AI web design studio</span></p>
+        <h1 class="reveal font-display uppercase leading-[0.98] text-white" data-load style="--i:1; font-size: var(--fs-hero)">
+          <span class="hero-grad" data-i18n="hero.title1">TODO Websites that feel</span><br/><span data-i18n="hero.title2">like worlds.</span>
+        </h1>
+        <p class="reveal mt-7 leading-[1.75] text-[color:var(--ink-soft)] max-w-xl" data-load style="--i:2; font-size: var(--fs-lg)" data-i18n="hero.lede">
+          TODO: one-paragraph pitch. What the showcase is, who it is for, and that every demo was designed and built end-to-end with AI.
+        </p>
+        <div class="reveal mt-9 flex flex-wrap items-center gap-3" data-load style="--i:3">
+          <a href="#collection" class="btn-gold" data-magnetic><span data-i18n="hero.cta1">Explore the demos</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <!-- TODO: set the wa.me number + prefilled message. -->
+          <a href="https://wa.me/60XXXXXXXXXX?text=Hi%2C%20I%20want%20a%20website%20like%20your%20demos" class="btn-ghost" data-i18n="hero.cta2">Get yours built</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLECTION -->
+    <section id="collection" aria-labelledby="demos-heading" class="pb-10 scroll-mt-24">
+      <div class="reveal flex items-end justify-between mb-6" style="--i:0">
+        <h2 id="demos-heading" class="eyebrow text-[color:var(--ink-dim)]" data-i18n="col.eyebrow">The collection</h2>
+        <span class="eyebrow text-[color:var(--ink-dim)] tnum"><span id="shownCount">3</span> <span data-i18n="col.shown">shown</span></span>
+      </div>
+
+      <!-- FILTER: one chip per data-cat used below. Keep the .cnt numbers in sync with the
+           number of cards carrying that data-cat (the "all" count = total cards). -->
+      <div class="reveal flex flex-wrap gap-2 mb-8" style="--i:1" role="group" aria-label="Filter demos by category" id="filterBar">
+        <button class="fchip" data-filter="all" aria-pressed="true"><span data-i18n="cat.all">All</span> <span class="cnt">3</span></button>
+        <button class="fchip" data-filter="cinema" aria-pressed="false"><span data-i18n="cat.cinema">Scroll Cinema</span> <span class="cnt">1</span></button>
+        <button class="fchip" data-filter="corporate" aria-pressed="false"><span data-i18n="cat.corporate">Corporate</span> <span class="cnt">1</span></button>
+        <button class="fchip" data-filter="funnels" aria-pressed="false"><span data-i18n="cat.funnels">Funnels</span> <span class="cnt">1</span></button>
+        <!-- TODO: add more chips as you add categories (ecommerce, saas, dash, fnb, ...). -->
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="demoGrid">
+
+        <!-- ============================================================= -->
+        <!-- CARD CONTRACT (repeat one <a> per demo):                       -->
+        <!--   href          = the live subsite dir (also the click target)  -->
+        <!--   data-cat       = filter category (must match a chip)          -->
+        <!--   data-preview   = opt into the preview widget (preview.js)      -->
+        <!--   data-live       = URL the hover live-iframe loads (usually =href)
+        <!--   data-poster    = poster image in hub-assets/ (the LCP image)  -->
+        <!--   data-loop      = OPTIONAL looping preview clip (webm/mp4)      -->
+        <!-- Featured card: add `sm:col-span-2` + a wider aspect for a hero. -->
+        <!-- ============================================================= -->
+
+        <!-- TODO CARD 1 - featured (scroll-cinema example) -->
+        <a href="demo-one/" class="reveal demo-card card sm:col-span-2 group" style="--i:1" data-cat="cinema"
+           data-preview data-live="demo-one/" data-poster="hub-assets/poster-demo-one.webp">
+          <div class="poster-box cover-scrim relative aspect-[4/5] sm:aspect-[16/9]">
+            <!-- Featured poster is above the fold: loading="eager". Non-featured cards use lazy. -->
+            <img src="hub-assets/poster-demo-one.webp" alt="TODO: demo one alt text" class="poster" loading="eager" width="1280" height="800" />
+            <div class="preview-host" aria-hidden="true"></div>
+            <div class="ring"></div>
+            <div class="absolute inset-x-0 top-0 z-[3] p-6 flex items-center justify-between">
+              <span class="chip chip-live" style="background: color-mix(in srgb, var(--pitch) 55%, transparent)"><span class="chip-dot"></span><span data-i18n="card.live">Live demo</span></span>
+              <span class="play" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.5-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14z"/></svg></span>
+            </div>
+            <div class="absolute inset-x-0 bottom-0 z-[3] p-6 sm:p-8">
+              <p class="eyebrow text-white/60 mb-2" data-i18n="card.one.cat">TODO Industry &middot; Scroll cinema</p>
+              <h3 class="font-display uppercase text-2xl sm:text-3xl text-white">TODO Demo One</h3>
+              <p class="mt-2 text-sm leading-[1.7] text-white/72 max-w-md" data-i18n="card.one.body">TODO: one-line hook for demo one.</p>
+              <span class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--gold)]"><span data-i18n="card.enter">Enter the demo</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- TODO CARD 2 - standard (corporate example) -->
+        <a href="demo-two/" class="reveal demo-card card group" style="--i:2" data-cat="corporate"
+           data-preview data-live="demo-two/" data-poster="hub-assets/poster-demo-two.webp">
+          <div class="poster-box cover-scrim relative aspect-[4/5] sm:aspect-[4/3]">
+            <img src="hub-assets/poster-demo-two.webp" alt="TODO: demo two alt text" class="poster" loading="lazy" width="1280" height="800" />
+            <div class="preview-host" aria-hidden="true"></div><div class="ring"></div>
+            <div class="absolute inset-x-0 bottom-0 z-[3] p-5">
+              <p class="eyebrow text-white/60 mb-1.5" data-i18n="card.two.cat">TODO Industry &middot; 3D scroll</p>
+              <h3 class="font-display uppercase text-xl text-white">TODO Demo Two</h3>
+              <p class="mt-1.5 text-sm leading-[1.6] text-white/70" data-i18n="card.two.body">TODO: one-line hook for demo two.</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- TODO CARD 3 - standard (funnel example) -->
+        <a href="demo-three/" class="reveal demo-card card group" style="--i:3" data-cat="funnels"
+           data-preview data-live="demo-three/" data-poster="hub-assets/poster-demo-three.webp">
+          <div class="poster-box cover-scrim relative aspect-[4/5] sm:aspect-[4/3]">
+            <img src="hub-assets/poster-demo-three.webp" alt="TODO: demo three alt text" class="poster" loading="lazy" width="1280" height="800" />
+            <div class="preview-host" aria-hidden="true"></div><div class="ring"></div>
+            <div class="absolute inset-x-0 bottom-0 z-[3] p-5">
+              <p class="eyebrow text-white/60 mb-1.5" data-i18n="card.three.cat">TODO Industry &middot; Funnel</p>
+              <h3 class="font-display uppercase text-xl text-white">TODO Demo Three</h3>
+              <p class="mt-1.5 text-sm leading-[1.6] text-white/70" data-i18n="card.three.body">TODO: one-line hook for demo three.</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+      <p class="reveal mt-6 text-xs text-[color:var(--ink-dim)]" style="--i:2" data-i18n="col.tip">Tip: hover any card and the real site starts scrolling inside it. Every demo is a live website - click through and drive it yourself.</p>
+    </section>
+
+    <!-- SERVICES / CROSS-SELL (glass CTA band) -->
+    <section id="services" aria-labelledby="services-heading" class="py-20 scroll-mt-20">
+      <div class="reveal arch-cta" style="--i:0">
+        <div class="glass-band text-center">
+          <p class="font-display uppercase text-white" style="font-size: var(--fs-h2)" data-i18n="svc.cta.title">Your industry could be next</p>
+          <p class="mt-3 text-[color:var(--ink-soft)] max-w-xl mx-auto" data-i18n="svc.cta.body">TODO: tell us what you do; we will show you what your world could look like.</p>
+          <div class="mt-7 flex flex-wrap justify-center gap-3">
+            <a href="https://wa.me/60XXXXXXXXXX?text=Hi%2C%20I%20want%20a%20website%20like%20your%20demos" class="btn-gold" data-magnetic data-i18n="svc.cta.btn">Talk to us on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 border-t border-[color:var(--line)]">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <a href="#top" class="font-display text-sm uppercase tracking-[0.16em] text-white">TODO<span style="color:var(--gold)">Studio</span></a>
+      <p class="text-sm text-[color:var(--ink-soft)]" data-i18n="foot.line">Every site here is a concept demo, designed and built end-to-end with AI.</p>
+      <!-- OPTIONAL: language switcher (only if the hub is trilingual + baked with prerender.mjs). -->
+      <div class="flex items-center gap-3">
+        <button class="text-xs text-[color:var(--ink-dim)] hover:text-white" data-lang-switch="en" aria-current="true">EN</button>
+        <button class="text-xs text-[color:var(--ink-dim)] hover:text-white" data-lang-switch="zh">&#20013;&#25991;</button>
+        <button class="text-xs text-[color:var(--ink-dim)] hover:text-white" data-lang-switch="ms">BM</button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="shared/studio.js"></script>
+  <script src="shared/preview.js"></script>
+  <script src="shared/i18n.js"></script>
+  <script>
+    (function () {
+      // --- Category filter (state applied synchronously; WAAPI is pure decoration) ---
+      var grid = document.getElementById('demoGrid');
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.demo-card'));
+      var chips = Array.prototype.slice.call(document.querySelectorAll('#filterBar .fchip'));
+      var shown = document.getElementById('shownCount');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function applyFilter(cat, animate) {
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === cat)); });
+        var count = 0;
+        cards.forEach(function (card) {
+          var show = cat === 'all' || card.dataset.cat === cat;
+          if (show) count++;
+          var wasHidden = card.classList.contains('is-filtered');
+          // Apply state FIRST so rapid switching can never strand a card hidden; animate after.
+          card.classList.toggle('is-filtered', !show);
+          if (animate && !reduce && show && wasHidden && card.animate) {
+            card.animate(
+              [{ opacity: 0, transform: 'scale(0.96)' }, { opacity: 1, transform: 'scale(1)' }],
+              { duration: 320, easing: 'cubic-bezier(0.22,1,0.36,1)' }
+            );
+          }
+        });
+        shown.textContent = count;
+        if (window.ScrollTrigger) setTimeout(function () { ScrollTrigger.refresh(); }, 60);
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          var cat = chip.dataset.filter;
+          if (history.replaceState) history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat);
+          applyFilter(cat, true);
+        });
+      });
+
+      // deep link: /#corporate etc
+      var hash = (location.hash || '').replace('#', '');
+      var valid = chips.some(function (c) { return c.dataset.filter === hash; });
+      if (valid && hash !== 'all') applyFilter(hash, false);
+
+      // --- live previews (poster -> hover live iframe); skip on touch ---
+      if (window.NGPreview && matchMedia('(hover:hover)').matches) {
+        NGPreview.mountAll('[data-preview]');
+      }
+
+      // --- language switcher (only relevant if the hub is trilingual) ---
+      if (window.NGI18n) NGI18n.init({ base: './i18n/', shared: './shared/i18n/', langs: ['en', 'zh', 'ms'] });
+    })();
+  </script>
+</body>
+</html>

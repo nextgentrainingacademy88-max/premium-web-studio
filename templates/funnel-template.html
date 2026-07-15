@@ -1,0 +1,378 @@
+<!doctype html>
+<!-- NextGen Studio - direct-response FUNNEL template.
+     Static HTML. Tailwind CDN + ../shared/studio.css + ../shared/studio.js + GSAP.
+     A builder find-replaces "[Skill] Masterclass" + the data-i18n copy, swaps the
+     assets/* images, sets the countdown date + the wa.me number, then runs
+     `node shared/prerender.mjs <this-dir>` to bake zh/ms. Lives one level under the
+     project root (e.g. trainer-leadership/index.html). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[Skill] Masterclass - a NextGen Studio funnel demo</title>
+  <meta name="description" content="A one-day [Skill] Masterclass. HRDC-claimable, hands-on, built for working professionals. Limited seats - secure yours before the countdown ends." />
+  <meta property="og:title" content="[Skill] Masterclass" />
+  <meta property="og:description" content="One day. A room of doers. Walk out with a skill you use on Monday." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127891;</text></svg>" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/studio.css" />
+</head>
+
+<body data-accent="leadership" class="bg-scene min-h-screen">
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- 1. COUNTDOWN BAR ------------------------------------------------------ -->
+  <div class="ng-countbar" data-countdown="2026-08-30T09:00:00+08:00" role="timer" aria-label="Time left to register">
+    <span class="hidden sm:inline" data-i18n="countbar.label">Early-bird pricing ends in</span>
+    <span aria-hidden="true" class="flex items-center gap-2">
+      <span class="cell"><span data-cd="d">00</span>d</span>
+      <span class="cell"><span data-cd="h">00</span>h</span>
+      <span class="cell"><span data-cd="m">00</span>m</span>
+      <span class="cell"><span data-cd="s">00</span>s</span>
+    </span>
+  </div>
+  <script>document.body.classList.add('has-countbar');</script>
+
+  <!-- 2. HEADER ------------------------------------------------------------- -->
+  <header class="site-head">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#top" class="font-display text-sm uppercase tracking-[0.16em] text-white">Next<span style="color:var(--accent)">Gen</span></a>
+      <nav class="hidden md:flex items-center gap-6" aria-label="Sections">
+        <a href="#curriculum" class="text-sm font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors duration-200" data-i18n="nav.curriculum">Curriculum</a>
+        <a href="#trainer" class="text-sm font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors duration-200" data-i18n="nav.trainer">Trainer</a>
+        <a href="#pricing" class="text-sm font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors duration-200" data-i18n="nav.pricing">Pricing</a>
+        <a href="#faq" class="text-sm font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors duration-200" data-i18n="nav.faq">FAQ</a>
+      </nav>
+      <a href="#pricing" data-magnetic class="btn-primary text-sm !py-2.5 !px-5" data-i18n="nav.cta">Book a seat</a>
+    </div>
+  </header>
+
+  <span id="top"></span>
+  <main class="relative z-10">
+
+    <!-- 3. HERO ------------------------------------------------------------- -->
+    <section class="arch-hero" data-arch="hero" aria-labelledby="hero-title">
+      <div class="max-w-6xl mx-auto px-6 w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center py-16">
+        <div>
+          <p class="reveal chip mb-6" data-load style="--i:0"><span class="chip-dot"></span><span data-i18n="hero.eyebrow">One-day live masterclass</span></p>
+          <h1 id="hero-title" class="reveal font-display uppercase leading-[0.98] text-white" data-load style="--i:1; font-size: var(--fs-hero)">
+            <span class="hero-grad" data-i18n="hero.title1">[Skill]</span><br/><span data-i18n="hero.title2">Masterclass</span>
+          </h1>
+          <p class="reveal mt-6 leading-[1.75] text-[color:var(--ink-soft)] max-w-xl" data-load style="--i:2; font-size: var(--fs-lg)" data-i18n="hero.sub">
+            One focused day, a room of doers, and a skill you put to work on Monday. Built for working professionals who want the result, not the theory.
+          </p>
+          <div class="reveal mt-8 flex flex-wrap items-center gap-3" data-load style="--i:3">
+            <a href="#pricing" data-magnetic class="btn-primary" data-i18n="hero.ctaPrimary">Secure my seat</a>
+            <a href="#curriculum" class="btn-ghost" data-i18n="hero.ctaGhost">See the curriculum</a>
+          </div>
+          <!-- credibility strip -->
+          <dl class="reveal mt-10 grid grid-cols-3 gap-6 max-w-md" data-load style="--i:4">
+            <div>
+              <dd class="font-display text-2xl text-white"><span data-count-to="1200" data-count-suffix="+">1,200+</span></dd>
+              <dt class="text-xs text-[color:var(--ink-soft)] mt-1" data-i18n="hero.stat1">Professionals trained</dt>
+            </div>
+            <div>
+              <dd class="font-display text-2xl text-white"><span data-count-to="4.9">4.9</span><span style="color:var(--accent)">/5</span></dd>
+              <dt class="text-xs text-[color:var(--ink-soft)] mt-1" data-i18n="hero.stat2">Average rating</dt>
+            </div>
+            <div>
+              <dd class="font-display text-2xl text-white"><span data-count-to="100" data-count-suffix="%">100%</span></dd>
+              <dt class="text-xs text-[color:var(--ink-soft)] mt-1" data-i18n="hero.stat3">HRDC-claimable</dt>
+            </div>
+          </dl>
+        </div>
+
+        <!-- trainer cutout with glow -->
+        <div class="reveal relative mx-auto w-full max-w-sm" data-load style="--i:2">
+          <div class="absolute inset-0 -z-10 blur-3xl rounded-full" style="background: radial-gradient(circle at 50% 40%, var(--accent-soft), transparent 68%)" aria-hidden="true"></div>
+          <div class="relative rounded-3xl overflow-hidden card p-0">
+            <img src="assets/trainer-cutout.webp" alt="Portrait of the course trainer" class="w-full h-auto object-cover" loading="eager" width="640" height="800" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. WHO THIS IS FOR (feature grid) ---------------------------------- -->
+    <section class="py-20 sm:py-24" data-arch="features" aria-labelledby="fit-title">
+      <div class="arch-features max-w-6xl mx-auto px-6">
+        <div class="reveal max-w-2xl mb-12" style="--i:0">
+          <p class="eyebrow text-[color:var(--accent)] mb-3" data-i18n="fit.eyebrow">Who it's for</p>
+          <h2 id="fit-title" class="font-display uppercase leading-[1.05] text-white" style="font-size: var(--fs-h2)" data-i18n="fit.title">Made for people with real work to ship</h2>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+          <article class="reveal feat" data-tilt style="--i:1">
+            <h3 class="font-semibold text-white text-lg" data-i18n="fit.c1.title">Team leads</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="fit.c1.body">You carry a team and a target. Leave with a system your people can actually follow.</p>
+          </article>
+          <article class="reveal feat" data-tilt style="--i:2">
+            <h3 class="font-semibold text-white text-lg" data-i18n="fit.c2.title">Business owners</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="fit.c2.body">Wear every hat and want the highest-leverage one first. This is that hat.</p>
+          </article>
+          <article class="reveal feat" data-tilt style="--i:3">
+            <h3 class="font-semibold text-white text-lg" data-i18n="fit.c3.title">Career switchers</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="fit.c3.body">Moving into a new lane and need a fast, credible on-ramp. Start here.</p>
+          </article>
+          <article class="reveal feat" data-tilt style="--i:4">
+            <h3 class="font-semibold text-white text-lg" data-i18n="fit.c4.title">Ambitious ICs</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="fit.c4.body">You do the work and want the edge that gets you noticed. One day changes the curve.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PROBLEM / AGITATION band ---------------------------------------- -->
+    <section class="py-20 sm:py-24" style="background: var(--surface)" aria-labelledby="pain-title">
+      <div class="max-w-4xl mx-auto px-6">
+        <p class="reveal eyebrow text-[color:var(--accent)] mb-3" style="--i:0" data-i18n="pain.eyebrow">The honest problem</p>
+        <h2 id="pain-title" class="reveal font-display uppercase leading-[1.06] text-white mb-8" style="--i:1; font-size: var(--fs-h2)" data-i18n="pain.title">Most training gives you notes, not results</h2>
+        <ul class="space-y-5" data-stagger>
+          <li class="reveal flex gap-4" style="--i:2">
+            <span class="mt-1 shrink-0 w-6 h-6 grid place-items-center rounded-full" style="background:var(--accent-soft); color:var(--accent)" aria-hidden="true">&times;</span>
+            <p class="text-[color:var(--ink-soft)] leading-[1.75]" data-i18n="pain.b1">You sit through slides for two days, then nothing changes on Monday because nothing was built with your hands.</p>
+          </li>
+          <li class="reveal flex gap-4" style="--i:3">
+            <span class="mt-1 shrink-0 w-6 h-6 grid place-items-center rounded-full" style="background:var(--accent-soft); color:var(--accent)" aria-hidden="true">&times;</span>
+            <p class="text-[color:var(--ink-soft)] leading-[1.75]" data-i18n="pain.b2">Generic content, no context for your role, and a trainer who has never done the job you do.</p>
+          </li>
+          <li class="reveal flex gap-4" style="--i:4">
+            <span class="mt-1 shrink-0 w-6 h-6 grid place-items-center rounded-full" style="background:var(--accent-soft); color:var(--accent)" aria-hidden="true">&times;</span>
+            <p class="text-[color:var(--ink-soft)] leading-[1.75]" data-i18n="pain.b3">No follow-through, no template, no proof - so the momentum is gone by the end of the week.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6. CURRICULUM / MODULES -------------------------------------------- -->
+    <section id="curriculum" class="py-20 sm:py-24 scroll-mt-24" data-arch="features" aria-labelledby="mod-title">
+      <div class="arch-features max-w-6xl mx-auto px-6">
+        <div class="reveal max-w-2xl mb-12" style="--i:0">
+          <p class="eyebrow text-[color:var(--accent)] mb-3" data-i18n="mod.eyebrow">The one-day map</p>
+          <h2 id="mod-title" class="font-display uppercase leading-[1.05] text-white" style="font-size: var(--fs-h2)" data-i18n="mod.title">Six modules, one working outcome</h2>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
+          <article class="reveal feat" style="--i:1">
+            <span class="font-display text-[color:var(--accent)] text-sm">01</span>
+            <h3 class="mt-3 font-semibold text-white text-lg" data-i18n="mod.m1.title">Foundations that stick</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="mod.m1.body">The core mental model, stripped of jargon, so the rest of the day compounds.</p>
+          </article>
+          <article class="reveal feat" style="--i:2">
+            <span class="font-display text-[color:var(--accent)] text-sm">02</span>
+            <h3 class="mt-3 font-semibold text-white text-lg" data-i18n="mod.m2.title">The first build</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="mod.m2.body">Hands on keys within the first hour. You make something real, not hypothetical.</p>
+          </article>
+          <article class="reveal feat" style="--i:3">
+            <span class="font-display text-[color:var(--accent)] text-sm">03</span>
+            <h3 class="mt-3 font-semibold text-white text-lg" data-i18n="mod.m3.title">Patterns that scale</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="mod.m3.body">Repeatable moves you can run again next week without the trainer in the room.</p>
+          </article>
+          <article class="reveal feat" style="--i:4">
+            <span class="font-display text-[color:var(--accent)] text-sm">04</span>
+            <h3 class="mt-3 font-semibold text-white text-lg" data-i18n="mod.m4.title">Real-world pressure test</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="mod.m4.body">Apply it to YOUR context, with feedback, so it survives contact with reality.</p>
+          </article>
+          <article class="reveal feat" style="--i:5">
+            <span class="font-display text-[color:var(--accent)] text-sm">05</span>
+            <h3 class="mt-3 font-semibold text-white text-lg" data-i18n="mod.m5.title">Ship + template</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="mod.m5.body">Walk out with a finished artifact and the template to reproduce it on demand.</p>
+          </article>
+          <article class="reveal feat" style="--i:6">
+            <span class="font-display text-[color:var(--accent)] text-sm">06</span>
+            <h3 class="mt-3 font-semibold text-white text-lg" data-i18n="mod.m6.title">Your 30-day plan</h3>
+            <p class="mt-2 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="mod.m6.body">Leave with a concrete plan and the follow-through path, so momentum outlasts the day.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. TRAINER BIO SPLIT ----------------------------------------------- -->
+    <section id="trainer" class="py-20 sm:py-24 scroll-mt-24" aria-labelledby="trainer-title">
+      <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal" style="--i:0">
+          <div class="rounded-3xl overflow-hidden card p-0">
+            <img src="assets/trainer-portrait.webp" alt="The course trainer leading a live session" class="w-full h-auto object-cover" loading="lazy" width="720" height="720" />
+          </div>
+        </div>
+        <div>
+          <p class="reveal eyebrow text-[color:var(--accent)] mb-3" style="--i:1" data-i18n="trainer.eyebrow">Your trainer</p>
+          <h2 id="trainer-title" class="reveal font-display uppercase leading-[1.05] text-white mb-5" style="--i:2; font-size: var(--fs-h2)" data-i18n="trainer.title">Taught by someone who does the work</h2>
+          <p class="reveal text-[color:var(--ink-soft)] leading-[1.75] mb-6" style="--i:3" data-i18n="trainer.bio">A practitioner first and a trainer second. Every method in this room has been earned on real projects, with real stakes, not lifted from a textbook.</p>
+          <ul class="space-y-3 mb-8" data-stagger>
+            <li class="reveal flex items-center gap-3 text-[color:var(--ink-soft)]" style="--i:4"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--accent)" aria-hidden="true"></span><span data-i18n="trainer.cred1">HRDC-certified trainer</span></li>
+            <li class="reveal flex items-center gap-3 text-[color:var(--ink-soft)]" style="--i:5"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--accent)" aria-hidden="true"></span><span data-i18n="trainer.cred2">A decade of hands-on delivery</span></li>
+            <li class="reveal flex items-center gap-3 text-[color:var(--ink-soft)]" style="--i:6"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--accent)" aria-hidden="true"></span><span data-i18n="trainer.cred3">Trusted by teams across the region</span></li>
+          </ul>
+          <blockquote class="reveal border-l-2 pl-5 italic text-white/90 leading-[1.7]" style="--i:7; border-color: var(--accent)" data-i18n="trainer.quote">
+            "I do not teach theory. I teach the exact moves I use, and I do not let you leave until you can run them yourself."
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. PHOTO MARQUEE --------------------------------------------------- -->
+    <section class="py-10" aria-label="Photos from past sessions">
+      <div class="ng-marquee">
+        <div class="track">
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Session" alt="Participants at a past session" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Workshop" alt="Hands-on workshop moment" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Team" alt="A team working together" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Live" alt="Live teaching moment" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Build" alt="A participant building" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <!-- duplicate set for the seamless 50% loop -->
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Session" alt="" aria-hidden="true" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Workshop" alt="" aria-hidden="true" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Team" alt="" aria-hidden="true" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Live" alt="" aria-hidden="true" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+          <img src="https://placehold.co/320x220/151B27/AEB9CA?text=Build" alt="" aria-hidden="true" class="rounded-2xl w-[280px] h-[190px] object-cover" width="320" height="220" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. PROOF / TESTIMONIALS -------------------------------------------- -->
+    <section class="py-20 sm:py-24" data-arch="proof" aria-labelledby="proof-title">
+      <div class="arch-proof max-w-6xl mx-auto px-6">
+        <div class="reveal max-w-2xl mb-12" style="--i:0">
+          <p class="eyebrow text-[color:var(--accent)] mb-3" data-i18n="proof.eyebrow">What people say</p>
+          <h2 id="proof-title" class="font-display uppercase leading-[1.05] text-white" style="font-size: var(--fs-h2)" data-i18n="proof.title">Results, in their words</h2>
+        </div>
+        <div class="grid gap-5 md:grid-cols-3" data-stagger>
+          <figure class="reveal quote" style="--i:1">
+            <blockquote data-i18n="proof.q1">"I shipped the thing we built in the room the very next morning. That has never happened after a course before."</blockquote>
+            <figcaption class="who"><span class="w-9 h-9 rounded-full" style="background:var(--surface-2)" aria-hidden="true"></span><span data-i18n="proof.q1who">Operations lead</span></figcaption>
+          </figure>
+          <figure class="reveal quote" style="--i:2">
+            <blockquote data-i18n="proof.q2">"Worth every ringgit and every hour. Practical from minute one, zero fluff."</blockquote>
+            <figcaption class="who"><span class="w-9 h-9 rounded-full" style="background:var(--surface-2)" aria-hidden="true"></span><span data-i18n="proof.q2who">Small business owner</span></figcaption>
+          </figure>
+          <figure class="reveal quote" style="--i:3">
+            <blockquote data-i18n="proof.q3">"The trainer clearly does this for a living. Every question got a real answer, not a slide."</blockquote>
+            <figcaption class="who"><span class="w-9 h-9 rounded-full" style="background:var(--surface-2)" aria-hidden="true"></span><span data-i18n="proof.q3who">Marketing manager</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. PRICING -------------------------------------------------------- -->
+    <section id="pricing" class="py-20 sm:py-24 scroll-mt-24" data-arch="pricing" aria-labelledby="price-title">
+      <div class="arch-pricing max-w-5xl mx-auto px-6">
+        <div class="reveal text-center max-w-2xl mx-auto mb-14" style="--i:0">
+          <p class="eyebrow text-[color:var(--accent)] mb-3" data-i18n="pricing.eyebrow">Simple, honest pricing</p>
+          <h2 id="price-title" class="font-display uppercase leading-[1.05] text-white" style="font-size: var(--fs-h2)" data-i18n="pricing.title">Pick the seat that fits</h2>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2 max-w-3xl mx-auto items-start">
+          <!-- Self-funded -->
+          <div class="reveal tier card" style="--i:1">
+            <p class="eyebrow text-[color:var(--ink-dim)]" data-i18n="pricing.tier1.name">Self-funded</p>
+            <p class="mt-4 font-display text-white leading-none" style="font-size: 2.6rem">RM<span data-i18n="pricing.tier1.price">788</span></p>
+            <p class="mt-2 text-sm text-[color:var(--ink-soft)]" data-i18n="pricing.tier1.note">Pay your own way. No SST. One-day seat, all materials included.</p>
+            <ul class="mt-6 space-y-3 text-sm text-[color:var(--ink-soft)]">
+              <li class="flex gap-2.5"><span style="color:var(--accent)" aria-hidden="true">&check;</span><span data-i18n="pricing.tier1.f1">Full one-day live masterclass</span></li>
+              <li class="flex gap-2.5"><span style="color:var(--accent)" aria-hidden="true">&check;</span><span data-i18n="pricing.tier1.f2">Workbook + take-home templates</span></li>
+              <li class="flex gap-2.5"><span style="color:var(--accent)" aria-hidden="true">&check;</span><span data-i18n="pricing.tier1.f3">Certificate of completion</span></li>
+            </ul>
+            <a href="https://wa.me/601167878933?text=Hi%2C%20I%27d%20like%20to%20book%20the%20self-funded%20%5BSkill%5D%20Masterclass%20seat"
+               data-magnetic class="btn-ghost w-full justify-center mt-8" data-i18n="pricing.tier1.cta">Book self-funded</a>
+          </div>
+          <!-- HRDC (popular) -->
+          <div class="reveal tier tier--popular card" data-flag="MOST POPULAR" style="--i:2">
+            <p class="eyebrow text-[color:var(--ink-dim)]" data-i18n="pricing.tier2.name">HRDC-claimable</p>
+            <p class="mt-4 font-display text-white leading-none" style="font-size: 2.6rem">RM<span data-i18n="pricing.tier2.price">888</span></p>
+            <p class="mt-2 text-sm text-[color:var(--ink-soft)]" data-i18n="pricing.tier2.note">Claim it through your HRD Corp levy. We help with the paperwork end to end.</p>
+            <ul class="mt-6 space-y-3 text-sm text-[color:var(--ink-soft)]">
+              <li class="flex gap-2.5"><span style="color:var(--accent)" aria-hidden="true">&check;</span><span data-i18n="pricing.tier2.f1">Everything in self-funded</span></li>
+              <li class="flex gap-2.5"><span style="color:var(--accent)" aria-hidden="true">&check;</span><span data-i18n="pricing.tier2.f2">Full HRDC claim support</span></li>
+              <li class="flex gap-2.5"><span style="color:var(--accent)" aria-hidden="true">&check;</span><span data-i18n="pricing.tier2.f3">Priority seating + follow-up call</span></li>
+            </ul>
+            <a href="https://wa.me/601167878933?text=Hi%2C%20I%27d%20like%20the%20HRDC-claimable%20%5BSkill%5D%20Masterclass%20seat%20and%20claim%20help"
+               data-magnetic class="btn-primary w-full justify-center mt-8" data-i18n="pricing.tier2.cta">Book HRDC seat</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. FINAL CTA (glass band) ----------------------------------------- -->
+    <section class="py-16 sm:py-24" data-arch="cta" aria-labelledby="cta-title">
+      <div class="arch-cta max-w-5xl mx-auto px-6">
+        <div class="reveal glass-band text-center" style="--i:0">
+          <p class="eyebrow text-[color:var(--accent)] mb-4" data-i18n="cta.eyebrow">Seats are limited</p>
+          <h2 id="cta-title" class="font-display uppercase leading-[1.04] text-white max-w-2xl mx-auto" style="font-size: var(--fs-h2)" data-i18n="cta.title">One day now beats another year of maybe</h2>
+          <p class="mt-5 text-[color:var(--ink-soft)] leading-[1.75] max-w-xl mx-auto" data-i18n="cta.body">The room only holds so many. When the countdown hits zero, early-bird pricing is gone. Lock your seat while it is still open.</p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="#pricing" data-magnetic class="btn-primary" data-i18n="cta.primary">Secure my seat now</a>
+            <a href="https://wa.me/601167878933?text=Hi%2C%20I%20have%20a%20question%20about%20the%20%5BSkill%5D%20Masterclass" class="btn-ghost" data-i18n="cta.secondary">Ask a question</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. FAQ ------------------------------------------------------------ -->
+    <section id="faq" class="py-20 sm:py-24 scroll-mt-24" aria-labelledby="faq-title">
+      <div class="max-w-3xl mx-auto px-6">
+        <div class="reveal mb-10" style="--i:0">
+          <p class="eyebrow text-[color:var(--accent)] mb-3" data-i18n="faq.eyebrow">Before you ask</p>
+          <h2 id="faq-title" class="font-display uppercase leading-[1.05] text-white" style="font-size: var(--fs-h2)" data-i18n="faq.title">Questions, answered</h2>
+        </div>
+        <div class="space-y-3" data-stagger>
+          <details class="reveal card rounded-2xl px-5 py-4 group" style="--i:1">
+            <summary class="flex items-center justify-between cursor-pointer list-none font-semibold text-white min-h-[44px]">
+              <span data-i18n="faq.q1">Is this really claimable under HRDC?</span>
+              <span class="text-[color:var(--accent)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="faq.a1">Yes. The HRDC-claimable seat is eligible for HRD Corp levy claims and we support the paperwork from start to finish.</p>
+          </details>
+          <details class="reveal card rounded-2xl px-5 py-4 group" style="--i:2">
+            <summary class="flex items-center justify-between cursor-pointer list-none font-semibold text-white min-h-[44px]">
+              <span data-i18n="faq.q2">Do I need any prior experience?</span>
+              <span class="text-[color:var(--accent)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="faq.a2">None. We start from foundations and build up fast, so complete beginners and busy professionals both leave with a working result.</p>
+          </details>
+          <details class="reveal card rounded-2xl px-5 py-4 group" style="--i:3">
+            <summary class="flex items-center justify-between cursor-pointer list-none font-semibold text-white min-h-[44px]">
+              <span data-i18n="faq.q3">What do I walk out with?</span>
+              <span class="text-[color:var(--accent)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="faq.a3">A finished artifact you built in the room, the templates to reproduce it, and a concrete 30-day plan to keep the momentum.</p>
+          </details>
+          <details class="reveal card rounded-2xl px-5 py-4 group" style="--i:4">
+            <summary class="flex items-center justify-between cursor-pointer list-none font-semibold text-white min-h-[44px]">
+              <span data-i18n="faq.q4">What if I need to cancel?</span>
+              <span class="text-[color:var(--accent)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-sm leading-[1.7] text-[color:var(--ink-soft)]" data-i18n="faq.a4">Message us and we will move your seat to a future date. Full details are shared on booking.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 13. FOOTER ---------------------------------------------------------- -->
+  <footer class="relative z-10 border-t border-[color:var(--line)]">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <a href="#top" class="font-display text-sm uppercase tracking-[0.16em] text-white">Next<span style="color:var(--accent)">Gen</span></a>
+      <nav class="flex items-center gap-3" aria-label="Language">
+        <a href="#" data-lang-switch="en" class="text-xs font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors">EN</a>
+        <a href="#" data-lang-switch="zh" class="text-xs font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors">中文</a>
+        <a href="#" data-lang-switch="ms" class="text-xs font-medium text-[color:var(--ink-soft)] hover:text-white transition-colors">BM</a>
+      </nav>
+      <p class="text-xs text-[color:var(--ink-dim)]" data-i18n="footer.note">Concept demo built end-to-end with AI. Not affiliated with any brand shown.</p>
+    </div>
+  </footer>
+
+  <!-- GSAP is optional here (no scroll scenes), but loading it upgrades the reveal
+       animations to the refresh-proof GSAP path. Safe to remove for a lighter page. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../shared/studio.js"></script>
+  <script src="../shared/i18n.js"></script>
+  <script>
+    // On a prerendered (baked) page this only wires the language switcher; on the
+    // English source it fetches the dictionaries and translates live for preview.
+    if (window.NGI18n) NGI18n.init({ base: './i18n/', shared: '../shared/i18n/', langs: ['en', 'zh', 'ms'] });
+  </script>
+</body>
+</html>

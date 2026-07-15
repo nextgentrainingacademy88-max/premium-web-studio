@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# local QA output
+temporary screenshots/
+.playwright-mcp/
+*.local.*
+
+# generated / baked language pages (users bake their own)
+*/zh/
+*/ms/
+
+# generated + demo media assets (users bring their own)
+assets/vid/
+assets/*.webp
+hub-assets/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

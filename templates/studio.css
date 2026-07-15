@@ -1,0 +1,359 @@
+/* ============================================================================
+   NextGen Studio — shared design system  (studio.css)
+   ----------------------------------------------------------------------------
+   The single source of truth for tokens + section archetypes across all demo
+   sites. Load AFTER Tailwind CDN, BEFORE per-site styles:
+
+     <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="stylesheet" href="../shared/studio.css">
+
+   House rules (do not break):
+   - Dark cinematic base. ONE brand gold signature + ONE per-site accent.
+   - Animate transform/opacity ONLY. Never transition-all. Never width/height.
+   - Every interactive element: hover + focus-visible + active states.
+   - Body text >= 16px stays >= 4.5:1 contrast on its surface.
+   - Reduced motion: all decoration stops, content fully visible.
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   1. TOKENS
+   Per-site accent: set data-accent on <body> or override --accent inline.
+     <body data-accent="construction">  (amber)  … see map below
+---------------------------------------------------------------------------- */
+:root {
+  /* base surfaces (elevation: base -> elevated -> floating) */
+  --pitch:       #0A0E16;
+  --surface:     #0F131C;
+  --surface-2:   #151B27;
+  --line:        rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.14);
+
+  /* ink */
+  --ink:      #F3F6FA;
+  --ink-soft: #AEB9CA;   /* >= 4.5:1 on all surfaces */
+  --ink-dim:  #6E7A8D;   /* eyebrows / tertiary only (large or uppercase) */
+
+  /* studio signature (never changes per site) */
+  --gold:      #FFD75E;
+  --gold-deep: #E7B93F;
+
+  /* per-site accent (default = studio blue; override per site) */
+  --accent:      #4D7CFF;
+  --accent-deep: #3B63D9;
+  --accent-soft: rgba(77,124,255,0.14);
+
+  /* glass */
+  --glass-bg:   rgba(21,27,39,0.6);
+  --glass-blur: blur(14px) saturate(1.3);
+
+  /* type scale */
+  --fs-eyebrow: 0.75rem;
+  --fs-sm:      0.8125rem;
+  --fs-body:    0.9375rem;
+  --fs-lg:      1.125rem;
+  --fs-h3:      1.375rem;
+  --fs-h2:      clamp(1.75rem, 1.1rem + 2.6vw, 2.5rem);
+  --fs-hero:    clamp(2.6rem, 1.1rem + 6.6vw, 5rem);
+
+  /* elevation */
+  --e1: 0 1px 2px rgba(0,0,0,0.5);
+  --e2: 0 1px 2px rgba(0,0,0,0.5), 0 10px 26px -10px rgba(0,0,0,0.6);
+  --e3: 0 2px 4px rgba(0,0,0,0.5), 0 20px 50px -16px rgba(0,0,0,0.7),
+        0 30px 90px -30px var(--accent-soft);
+
+  /* motion */
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast:   180ms;
+  --dur-med:    280ms;
+  --dur-slow:   560ms;
+
+  /* fonts (per-site --font-display swap allowed; body stays Inter) */
+  --font-display: 'Archivo Black', Impact, sans-serif;
+  --font-body: 'Inter', 'Noto Sans SC', 'Noto Sans', system-ui, sans-serif;
+}
+
+/* per-site accent map — one attribute flips the whole palette */
+body[data-accent="construction"] { --accent:#FFB020; --accent-deep:#E09310; --accent-soft:rgba(255,176,32,0.14); }
+body[data-accent="hotel"]        { --accent:#E8C170; --accent-deep:#C9A050; --accent-soft:rgba(232,193,112,0.14); }
+body[data-accent="realestate"]   { --accent:#6FD3C7; --accent-deep:#4BB5A8; --accent-soft:rgba(111,211,199,0.14); }
+body[data-accent="manufacturing"]{ --accent:#5FA8FF; --accent-deep:#3D87E0; --accent-soft:rgba(95,168,255,0.14); }
+body[data-accent="engineering"]  { --accent:#16C7E4; --accent-deep:#0FA6C0; --accent-soft:rgba(22,199,228,0.14); }
+body[data-accent="property"]     { --accent:#9D8CFF; --accent-deep:#7E6BE0; --accent-soft:rgba(157,140,255,0.14); }
+body[data-accent="hospitality"]  { --accent:#FF8A5B; --accent-deep:#E06A3C; --accent-soft:rgba(255,138,91,0.14); }
+body[data-accent="fnb"]          { --accent:#FF6B6B; --accent-deep:#E04E4E; --accent-soft:rgba(255,107,107,0.14); }
+body[data-accent="restaurant"]   { --accent:#F26419; --accent-deep:#DA560F; --accent-soft:rgba(242,100,25,0.14); }
+body[data-accent="apparel"]      { --accent:#F5F5F5; --accent-deep:#CFCFCF; --accent-soft:rgba(245,245,245,0.12); }
+body[data-accent="supplements"]  { --accent:#46E0A0; --accent-deep:#2FC084; --accent-soft:rgba(70,224,160,0.14); }
+body[data-accent="saas"]         { --accent:#4D7CFF; --accent-deep:#3B63D9; --accent-soft:rgba(77,124,255,0.14); }
+body[data-accent="fitness"]      { --accent:#C6F135; --accent-deep:#A5CC22; --accent-soft:rgba(198,241,53,0.14); }
+body[data-accent="training"]     { --accent:#16C7E4; --accent-deep:#0FA6C0; --accent-soft:rgba(22,199,228,0.14); }
+body[data-accent="leadership"]   { --accent:#FFB020; --accent-deep:#E09310; --accent-soft:rgba(255,176,32,0.14); }
+body[data-accent="communication"]{ --accent:#5FA8FF; --accent-deep:#3D87E0; --accent-soft:rgba(95,168,255,0.14); }
+body[data-accent="eq"]           { --accent:#FF7BAC; --accent-deep:#E0568C; --accent-soft:rgba(255,123,172,0.14); }
+body[data-accent="dashboard"]    { --accent:#46E0A0; --accent-deep:#2FC084; --accent-soft:rgba(70,224,160,0.14); }
+
+/* ----------------------------------------------------------------------------
+   2. BASE
+---------------------------------------------------------------------------- */
+* { -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--pitch);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+.font-display { font-family: var(--font-display); letter-spacing: -0.035em; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* layered cinematic background (accent-aware) */
+.bg-scene {
+  background:
+    radial-gradient(1200px 620px at 12% -12%, var(--accent-soft), transparent 58%),
+    radial-gradient(1000px 560px at 92% -6%, rgba(255,215,94,0.06), transparent 55%),
+    radial-gradient(1500px 1000px at 50% 116%, rgba(14,26,48,0.55), transparent 66%),
+    var(--pitch);
+}
+.grain {
+  position: fixed; inset: 0; pointer-events: none; opacity: 0.045; z-index: 60;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* focus + selection */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px;
+}
+::selection { background: var(--accent); color: var(--pitch); }
+
+/* ----------------------------------------------------------------------------
+   3. CHROME — sticky header, chips, eyebrow
+---------------------------------------------------------------------------- */
+.site-head {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--pitch) 72%, transparent);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-med) ease, background var(--dur-med) ease;
+}
+.site-head.scrolled { border-bottom-color: var(--line); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: var(--fs-sm); font-weight: 600;
+  padding: 0.34rem 0.7rem; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+.chip-dot {
+  width: 7px; height: 7px; border-radius: 999px;
+  background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.chip-live .chip-dot { background: #46E0A0; box-shadow: 0 0 0 3px rgba(70,224,160,0.18); animation: ng-pulse 2.4s ease-in-out infinite; }
+@keyframes ng-pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+.eyebrow {
+  letter-spacing: 0.24em; text-transform: uppercase;
+  font-size: var(--fs-eyebrow); font-weight: 700;
+}
+
+/* ----------------------------------------------------------------------------
+   4. CARDS + BUTTONS (elevation + press physics)
+---------------------------------------------------------------------------- */
+.card {
+  background: linear-gradient(162deg, var(--surface) 0%, #0C1017 100%);
+  border: 1px solid var(--line); box-shadow: var(--e2);
+  transition: transform var(--dur-med) var(--ease-out),
+              box-shadow var(--dur-med) var(--ease-out),
+              border-color var(--dur-med) ease;
+}
+.card:hover  { transform: translateY(-4px); box-shadow: var(--e3); border-color: var(--line-strong); }
+.card:active { transform: translateY(-1px) scale(0.995); }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  border-radius: 999px; padding: 0.75rem 1.5rem;
+  font-weight: 600; color: #12100A; min-height: 44px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+  box-shadow: 0 10px 30px -12px var(--accent-soft), var(--e1);
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) ease, filter var(--dur-fast) ease;
+}
+.btn-primary:hover  { transform: translateY(-2px); filter: brightness(1.06); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  border-radius: 999px; padding: 0.75rem 1.5rem;
+  font-weight: 600; color: var(--ink); min-height: 44px;
+  border: 1px solid var(--line-strong);
+  transition: background var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);
+}
+.btn-ghost:hover  { background: var(--surface-2); }
+.btn-ghost:active { transform: scale(0.98); }
+
+/* gold variant — the studio signature CTA (hub + cross-sell moments) */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 0.625rem;
+  border-radius: 999px; padding: 0.75rem 1.5rem;
+  font-weight: 600; color: #12100A; min-height: 44px;
+  background: linear-gradient(180deg, var(--gold), var(--gold-deep));
+  box-shadow: 0 10px 30px -12px rgba(255,215,94,0.55), var(--e1);
+  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast) ease;
+}
+.btn-gold:hover  { transform: translateY(-2px); filter: brightness(1.05); }
+.btn-gold:active { transform: translateY(0) scale(0.98); }
+
+/* ----------------------------------------------------------------------------
+   5. REVEAL SYSTEM  (IntersectionObserver in studio.js; GSAP takes over
+      when present via html.gsap-on — identical to the proven hub pattern)
+---------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity var(--dur-slow) ease-out,
+              transform 620ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 55ms);
+}
+.reveal.in { opacity: 1; transform: none; }
+html.gsap-on .reveal { transition: none; }
+
+/* ----------------------------------------------------------------------------
+   6. ARCHETYPES — the section vocabulary all 20 sites compose from.
+      Mark sections with data-arch for QA tooling: data-arch="hero|features|
+      stats|pricing|proof|cta|scene3d|dash"
+---------------------------------------------------------------------------- */
+
+/* 6.1 HERO — full-bleed cinematic opener */
+.arch-hero { position: relative; min-height: 100dvh; display: flex; align-items: center; overflow: clip; }
+.arch-hero .hero-grad {
+  background: linear-gradient(180deg, #FFFFFF 0%, color-mix(in srgb, var(--accent) 30%, #FFFFFF) 62%, var(--accent) 130%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* 6.2 FEATURE STRIP — glow feature cards (motionsites "Glow Features" family) */
+.arch-features .feat {
+  position: relative; border-radius: 1.25rem; padding: 1.5rem;
+  background: linear-gradient(162deg, var(--surface) 0%, #0C1017 100%);
+  border: 1px solid var(--line); box-shadow: var(--e2); overflow: hidden;
+}
+.arch-features .feat::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(420px 200px at var(--mx, 50%) var(--my, 0%), var(--accent-soft), transparent 70%);
+  opacity: 0; transition: opacity var(--dur-med) ease;
+}
+.arch-features .feat:hover::before { opacity: 1; }
+
+/* 6.3 STATS — bento KPI row (motionsites "Bento Grid Stats" family) */
+.arch-stats .stat-num {
+  font-family: var(--font-display); font-size: clamp(2rem, 1rem + 3.4vw, 3.4rem);
+  color: var(--ink); line-height: 1; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.arch-stats .stat-num .unit { color: var(--accent); }
+.arch-stats .stat-label { margin-top: 0.5rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+
+/* 6.4 PRICING — tier cards, one "popular" elevated */
+.arch-pricing .tier { position: relative; border-radius: 1.5rem; padding: 2rem; }
+.arch-pricing .tier--popular {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: var(--e3);
+}
+.arch-pricing .tier--popular::before {
+  content: attr(data-flag); position: absolute; top: -0.8rem; left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #12100A; background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+  padding: 0.3rem 0.9rem; border-radius: 999px; white-space: nowrap;
+}
+
+/* 6.5 PROOF — testimonial / review cards */
+.arch-proof .quote {
+  border-radius: 1.25rem; padding: 1.5rem;
+  background: var(--surface); border: 1px solid var(--line);
+  font-size: var(--fs-body); line-height: 1.7; color: var(--ink-soft);
+}
+.arch-proof .quote .who { margin-top: 1rem; display: flex; align-items: center; gap: 0.75rem; color: var(--ink); font-weight: 600; font-size: var(--fs-sm); }
+
+/* 6.6 CTA — liquid-glass closing band (motionsites "Liquid Glass CTA" family) */
+.arch-cta .glass-band {
+  position: relative; border-radius: 2rem; padding: clamp(2rem, 5vw, 4rem);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--line-strong); box-shadow: var(--e3); overflow: hidden;
+}
+.arch-cta .glass-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(600px 300px at 30% -20%, var(--accent-soft), transparent 60%);
+}
+
+/* 6.7 SCENE3D — CSS-3D scroll stage (zero-video cinematic sites)
+   studio.js drives [data-depth] children with GSAP scrub; perspective here. */
+.arch-scene3d { position: relative; }
+.arch-scene3d .stage {
+  position: relative; transform-style: preserve-3d;
+  perspective: 1100px; perspective-origin: 50% 40%;
+}
+.arch-scene3d .layer { position: absolute; inset: 0; will-change: transform; transform-style: preserve-3d; }
+.arch-scene3d .float { animation: ng-float 7s ease-in-out infinite; }
+@keyframes ng-float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-14px) } }
+
+/* 6.8 DASH — dashboard chrome (FakeBrowser-style frame + KPI tiles) */
+.arch-dash .frame {
+  border-radius: 1rem; border: 1px solid var(--line-strong);
+  background: var(--surface); box-shadow: var(--e3); overflow: hidden;
+}
+.arch-dash .frame-bar {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.625rem 1rem; border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.arch-dash .frame-bar .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--line-strong); }
+.arch-dash .kpi {
+  border-radius: 0.875rem; padding: 1.125rem;
+  background: var(--surface-2); border: 1px solid var(--line);
+}
+.arch-dash .kpi .kpi-val { font-family: var(--font-display); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.arch-dash .kpi .kpi-delta--up   { color: #46E0A0; }
+.arch-dash .kpi .kpi-delta--down { color: #FF6B6B; }
+
+/* ----------------------------------------------------------------------------
+   7. MARQUEE — infinite photo/logo band (edge-faded)
+---------------------------------------------------------------------------- */
+.ng-marquee { overflow: hidden; position: relative;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.ng-marquee .track { display: flex; gap: 1rem; width: max-content; animation: ng-marquee 36s linear infinite; }
+.ng-marquee:hover .track { animation-play-state: paused; }
+@keyframes ng-marquee { to { transform: translateX(-50%); } }
+
+/* ----------------------------------------------------------------------------
+   8. COUNTDOWN BAR — fixed urgency strip (funnel sites)
+---------------------------------------------------------------------------- */
+.ng-countbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: 2.75rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+  font-size: var(--fs-sm); font-weight: 600; color: #12100A;
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+}
+.ng-countbar .cell { font-variant-numeric: tabular-nums; font-weight: 800; }
+body.has-countbar .site-head { top: 2.75rem; }
+body.has-countbar .arch-hero { padding-top: 2.75rem; }
+
+/* ----------------------------------------------------------------------------
+   9. PREVIEW MODE — hub screenshots/loops: ?preview=1 hides chrome
+---------------------------------------------------------------------------- */
+html.ng-preview .site-head,
+html.ng-preview .ng-countbar,
+html.ng-preview .grain { display: none !important; }
+html.ng-preview { scroll-behavior: auto; }
+
+/* ----------------------------------------------------------------------------
+   10. REDUCED MOTION — everything decorative stops; content visible
+---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .card, .btn-primary, .btn-ghost, .btn-gold { transition: none; }
+  .chip-live .chip-dot, .arch-scene3d .float { animation: none; }
+  .ng-marquee .track { animation: none; transform: none; }
+}
