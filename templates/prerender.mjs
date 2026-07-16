@@ -18,10 +18,14 @@
             data-i18n-html="key">HTML</  -> replaces inner HTML up to the first
                                             close tag (LEAF ELEMENTS ONLY - see
                                             limitation below)
+            data-i18n-content="key"      -> replaces the tag's content=""
+                                            attribute (meta description, og:*)
           Keys missing from the dictionary are left untouched (English shows).
        4. Swap <html lang="en"> -> <html lang="<lang>"> and add data-i18n-baked.
        5. Rewrite relative asset URLs (href/src) by prefixing "../" one level,
           because the baked file lives one directory deeper (<dir>/<lang>/).
+          An absolute canonical/og:url ending in "/" gets "<lang>/" appended
+          so each baked page self-canonicalizes.
        6. Inject <link rel="alternate" hreflang> for en/zh/ms (+ x-default).
        7. Write <dir>/<lang>/index.html.
      Also patches the EN source in place with the hreflang block (idempotent).
@@ -104,9 +108,34 @@ function stampHtml(html, dict) {
     });
 }
 
+// Stamp data-i18n-content nodes: translate the content="" ATTRIBUTE on the same
+// tag (for <meta name="description">, og:* tags - attributes are invisible to
+// stampText/stampHtml which only handle inner text/HTML).
+function stampContent(html, dict) {
+  return html.replace(/<([a-zA-Z][\w-]*)\b([^>]*\bdata-i18n-content="([^"]+)"[^>]*)>/g, function (m, tag, attrs, key) {
+    var val = lookup(dict, key);
+    if (val === undefined) return m;               // key missing -> keep English
+    // (\s) guard: \b would also match the "content=" inside data-i18n-content=""
+    var stamped = attrs.replace(/(\s)content="[^"]*"/, '$1content="' + escapeAttr(val) + '"');
+    return '<' + tag + stamped + '>';
+  });
+}
+
+// Point an absolute canonical + og:url at the language variant. The EN source
+// carries the EN URLs; baked pages live one dir deeper, so append "<lang>/".
+// Only touches hrefs/contents that end in "/" (a directory URL).
+function localizeCanonical(html, lang) {
+  html = html.replace(/(<link\b[^>]*\brel="canonical"[^>]*\bhref="https?:\/\/[^"]*\/)(")/i, '$1' + lang + '/$2');
+  html = html.replace(/(<meta\b[^>]*\bproperty="og:url"[^>]*\bcontent="https?:\/\/[^"]*\/)(")/i, '$1' + lang + '/$2');
+  return html;
+}
+
 // Minimal text escaping for translated plain text (keeps markup safe).
 function escapeHtmlText(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function escapeAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 // Swap <html lang="xx"> -> target lang + add data-i18n-baked (idempotent).
@@ -132,7 +161,7 @@ function bumpUrl(u) {
 
 // Rewrite href="" / src="" / bg-video data-attribute relative paths.
 function rewriteAssetPaths(html) {
-  return html.replace(/\b(href|src|data-bg-video|data-bg-video-webm|data-bg-poster|data-poster|data-live)="([^"]*)"/gi, function (m, attr, url) {
+  return html.replace(/\b(href|src|data-bg-video|data-bg-video-webm|data-bg-poster|data-poster|data-live|data-loop)="([^"]*)"/gi, function (m, attr, url) {
     return attr + '="' + bumpUrl(url) + '"';
   });
 }
@@ -199,8 +228,10 @@ function prerender(siteArg) {
     out = stripHreflang(out);          // work from a clean copy
     out = stampText(out, dict);
     out = stampHtml(out, dict);
+    out = stampContent(out, dict);
     out = setHtmlLang(out, lang);
     out = rewriteAssetPaths(out);
+    out = localizeCanonical(out, lang);
     out = injectHreflang(out, 1);      // depth 1 (one dir deeper)
 
     var outDir = path.join(siteDir, lang);
@@ -227,7 +258,7 @@ function prerender(siteArg) {
 // Count how many i18n keys resolved (for the log line).
 function countStamped(html, dict) {
   var n = 0;
-  var re = /data-i18n(?:-html)?="([^"]+)"/g, m;
+  var re = /data-i18n(?:-html|-content)?="([^"]+)"/g, m;
   while ((m = re.exec(html))) { if (lookup(dict, m[1]) !== undefined) n++; }
   return n;
 }
@@ -243,4 +274,4 @@ console.log('Prerendering "' + arg + '" -> ' + TARGET_LANGS.join(', '));
 prerender(arg);
 console.log('Done.');
 
-export { prerender, stampText, stampHtml, bumpUrl, hreflangBlock };
+export { prerender, stampText, stampHtml, stampContent, localizeCanonical, bumpUrl, hreflangBlock };
