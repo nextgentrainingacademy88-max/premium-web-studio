@@ -130,9 +130,9 @@ function bumpUrl(u) {
   return '../' + u;
 }
 
-// Rewrite href="" and src="" relative paths.
+// Rewrite href="" / src="" / bg-video data-attribute relative paths.
 function rewriteAssetPaths(html) {
-  return html.replace(/\b(href|src)="([^"]*)"/gi, function (m, attr, url) {
+  return html.replace(/\b(href|src|data-bg-video|data-bg-video-webm|data-bg-poster|data-poster|data-live)="([^"]*)"/gi, function (m, attr, url) {
     return attr + '="' + bumpUrl(url) + '"';
   });
 }
